@@ -1,86 +1,115 @@
-Vagrant-Setup [ EspecializaTI]
-===========
+# vagrant
+Configuração para Vagrant + vagrantfile
 
-Servidor LAMP (Linux, Apache, MySQL, PHP)
+Arquivos para uma instação básica do ubuntu/trusty64, com as seguintes Apps
 
-Configuração do Vagrant (com provisionamento em Shell Script) para criar uma máquina virtual (Ubuntu Server 14.04 64 Bits) de desenvolvimento em PHP.
+Webmin,
+Phpmyadmin,
+Composer,
+Swapspace,
+Memcached,
+rng-tools
 
-### Pacotes Inclusos:
+A configuração de memória inicial ficou definida para 1024 = 1mb:
+machine.memory = 1024
 
-- PHP 7.1
-- MySQL 5.5
-- Git
-- PhpMyAdmin 
-- Composer
-- cURL
-- Vim
-- Redis
-(Para mais detalhes consulte arquivo setup.sh)
-
-
-Você vai precisar: 
-==============
-
-- Virtualbox - https://www.virtualbox.org/
-- Vagrant - http://www.vagrantup.com/
-- Git - http://git-scm.com ( Opicional )
-- Acesso Internet
+Após a instação pode ser definido para 512 sem problemas.
+machine.memory = 512
 
 
--> Instale o Virtualbox e o Vagrant de acordo com seu sistema operacional. ( A instalação é bem simples e pode ser feita sem muitas dificuldades... )
+Definindo o numero de processadores da Máquina Virtual:
+
+Inicalmente definido para 1, se precisar de maior processamento defina conforme os núcleos disponiveis em seu PC host.
+machine.customize [ "modifyvm", :id, "--cpus", "1" ]
 
 
-Modo de Uso
-===========
+Att.
+Marcelo Pires de Almeida
 
-A instalação inicial pode ser feita de duas formas, sendo:
-
-1º -> Caso tenha o Git instaldo em sua máquina, proceda da seguinte forma:
+PS: Configurações baseadas no script da EspecializaTI, com alterações para meu desenvolvimento, qualquer dúvida não tenha receio de me contatar pelo Github.
 
 
 
-* Clone esse repositório para sua máquina:
+******************
+Usage:
 
-- git clone https://github.com/especializati/vagrant-setup-php.git ( Execute o comando no seu Prompt/Terminal )
-
-* Ainda no Prompt de comando/Terminal Entre no diretório vagrant-setup-php  ( Ou o que você definir na hora da clonagem )
-
-* Inicie a máquina virtual com o comando:
-
-- vagrant up 
-
-
-
-
-2º -> Caso não tenha o Git instalado em sua máquina, acesse https://github.com/especializati/vagrant-setup-php baixe o arquivo do projeto no formato .zip e descompacte-o onde desejar.
-
-* Abra seu Prompt/Terminal , acesse o diretorio que acabou de descompactar e rode o comando:
-
-- vagrant up
-
-
-
-
-Após este comando 'vagrant up', o Vagrant ficará responsavel por baixar o sistema operacional ( neste caso Ubuntu Server 64 ), configurar a máquina virtual no VirtualBox e posteriormente baixar, instalar e configurar todos os pacotes do script 'setup.sh' (Sim! A primeira vez realmente é um pouco mais demorado).
-
-Quando tudo estiver pronto, um servidor web estará disponível no endereço http://localhost:8080, e a instalação do PHPMyAdmin está em http://localhost:8080/phpmyadmin, para acessar utilize:
-
-- Login: root
-- Senha: vagrant
-
-obs:(A senha padrão para todos os serviços é vagrant).
-
-
-Coloque seu código no diretório "www". Todo o conteúdo dele estará disponível via http://localhost:8080. (Como teste, já existe um arquivo index.php que chama a função phpinfo() ).
-
-Para desligar a máquina virtual utilize o comando:
-
-- vagrant halt
-
-Para religar novamente utilize:
-
-- vagrant up
-
-Caso queira destruir a máquina virtual (o conteúdo do www não será excluido):
-
-- vagrant destroy
+VBoxManage modifyvm         <uuid|vmname>
+                            [--name <name>]
+                            [--groups <group>, ...]
+                            [--description <desc>]
+                            [--ostype <ostype>]
+                            [--iconfile <filename>]
+                            [--memory <memorysize in MB>]
+                            [--pagefusion on|off]
+                            [--vram <vramsize in MB>]
+                            [--acpi on|off]
+                            [--pciattach 03:04.0]
+                            [--pciattach 03:04.0@02:01.0]
+                            [--pcidetach 03:04.0]
+                            [--ioapic on|off]
+                            [--hpet on|off]
+                            [--triplefaultreset on|off]
+                            [--apic on|off]
+                            [--x2apic on|off]
+                            [--paravirtprovider none|default|legacy|minimal|
+                                                hyperv|kvm]
+                            [--paravirtdebug <key=value> [,<key=value> ...]]
+                            [--hwvirtex on|off]
+                            [--nestedpaging on|off]
+                            [--largepages on|off]
+                            [--vtxvpid on|off]
+                            [--vtxux on|off]
+                            [--pae on|off]
+                            [--longmode on|off]
+                            [--ibpb-on-vm-exit on|off]
+                            [--ibpb-on-vm-entry on|off]
+                            [--spec-ctrl on|off]
+                            [--l1d-flush-on-sched on|off]
+                            [--l1d-flush-on-vm-entry on|off]
+                            [--nested-hw-virt on|off]
+                            [--cpu-profile "host|Intel 80[86|286|386]"]
+                            [--cpuid-portability-level <0..3>
+                            [--cpuid-set <leaf[:subleaf]> <eax> <ebx> <ecx> <edx>]
+                            [--cpuid-remove <leaf[:subleaf]>]
+                            [--cpuidremoveall]
+                            [--hardwareuuid <uuid>]
+                            [--cpus <number>]
+                            [--cpuhotplug on|off]
+                            [--plugcpu <id>]
+                            [--unplugcpu <id>]
+                            [--cpuexecutioncap <1-100>]
+                            [--rtcuseutc on|off]
+                            [--graphicscontroller none|vboxvga|vmsvga|vboxsvga]
+                            [--monitorcount <number>]
+                            [--accelerate3d on|off]
+                            [--accelerate2dvideo on|off]
+                            [--firmware bios|efi|efi32|efi64]
+                            [--chipset ich9|piix3]
+                            [--bioslogofadein on|off]
+                            [--bioslogofadeout on|off]
+                            [--bioslogodisplaytime <msec>]
+                            [--bioslogoimagepath <imagepath>]
+                            [--biosbootmenu disabled|menuonly|messageandmenu]
+                            [--biosapic disabled|apic|x2apic]
+                            [--biossystemtimeoffset <msec>]
+                            [--biospxedebug on|off]
+                            [--boot<1-4> none|floppy|dvd|disk|net>]
+                            [--nic<1-N> none|null|nat|bridged|intnet|hostonly|
+                                        generic|natnetwork]
+                            [--nictype<1-N> Am79C970A|Am79C973|
+                                            82540EM|82543GC|82545EM|
+                                            virtio]
+                            [--cableconnected<1-N> on|off]
+                            [--nictrace<1-N> on|off]
+                            [--nictracefile<1-N> <filename>]
+                            [--nicproperty<1-N> name=[value]]
+                            [--nicspeed<1-N> <kbps>]
+                            [--nicbootprio<1-N> <priority>]
+                            [--nicpromisc<1-N> deny|allow-vms|allow-all]
+                            [--nicbandwidthgroup<1-N> none|<name>]
+                            [--bridgeadapter<1-N> none|<devicename>]
+                            [--hostonlyadapter<1-N> none|<devicename>]
+                            [--intnet<1-N> <network name>]
+                            [--nat-network<1-N> <network name>]
+                            [--nicgenericdrv<1-N> <driver>
+                            [--natnet<1-N> <network>|default]
